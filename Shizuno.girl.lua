@@ -1,7 +1,6 @@
-total = 83 -- 配牌后总枚数
-total_exp_rinshan = 69 -- 除王牌外配牌后总枚数
-rate_other = 8 -- 对他家影响调整倍率
-rate_self = 4 -- 对自家影响调整倍率
+total = 84 -- 配牌后总枚数
+rate_other = 10 -- 对他家影响调整倍率
+rate_self = 1 -- 对自家影响调整倍率
 
 -- 猴子阶段扰乱配牌，随局数增加幅度变大
 function onmonkey()
@@ -27,7 +26,7 @@ end
 -- 摸牌阶段影响摸牌
 function ondraw()
     local round = game:getround()
-    local incmk = round * 5 + (total_exp_rinshan - mount:remainpii()) -- 一般摸牌挂力，随局数增加和牌山深入增强
+    local incmk = round * 5 + (total - mount:remainpii() - mount:remainrinshan()) -- 一般摸牌挂力，随局数增加和牌山深入增强
     local rsmk = round * 5 + (total - mount:remainrinshan()) -- 岭上摸牌挂力，随局数和开杠次数增加增强
 
     -- 扰乱他家摸牌
