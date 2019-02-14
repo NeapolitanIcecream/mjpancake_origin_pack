@@ -40,6 +40,15 @@ function ondraw()
         end
     end
 
+    -- 提高鸣牌和直击机会
+    if who ~= self then
+        local hand_slf = game:gethand(self)
+        for _, t in ipairs(hand_slf:effa()) do
+            local n = mount:remaina(t)
+            mount:lighta(t, n * 10 * rate_other)
+        end
+    end
+
     -- 准备海底捞月
     if who == self and hand ~= hand_cur and hand:ready() then
         local succ = false
