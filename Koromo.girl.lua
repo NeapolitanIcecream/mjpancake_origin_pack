@@ -82,21 +82,33 @@ function ondraw()
         local hand_left = game:gethand(who:left())
         local hand_cross = game:gethand(who:cross())
         local hand_right = game:gethand(who:right())
-        for _, t in ipairs(hand_slf:effa()) do
-            local n = mount:remaina(t)
-            mount:lighta(t, n * 20 * rate_other)
+
+        if not (hand_slf:ready()) then
+            for _, t in ipairs(hand_slf:effa()) do
+                local n = mount:remaina(t)
+                mount:lighta(t, n * 20 * rate_other)
+            end
         end
-        for _, t in ipairs(hand_left:effa()) do
-            local n = mount:remaina(t)
-            mount:lighta(t, n * (-10) * rate_other)
+
+        if not (hand_left:ready()) then
+            for _, t in ipairs(hand_left:effa()) do
+                local n = mount:remaina(t)
+                mount:lighta(t, n * (-10) * rate_other)
+            end
         end
-        for _, t in ipairs(hand_cross:effa()) do
-            local n = mount:remaina(t)
-            mount:lighta(t, n * (-10) * rate_other)
+
+        if not (hand_cross:ready()) then
+            for _, t in ipairs(hand_cross:effa()) do
+                local n = mount:remaina(t)
+                mount:lighta(t, n * (-10) * rate_other)
+            end
         end
-        for _, t in ipairs(hand_right:effa()) do
-            local n = mount:remaina(t)
-            mount:lighta(t, n * (-10) * rate_other)
+
+        if not (hand_right:ready()) then
+            for _, t in ipairs(hand_right:effa()) do
+                local n = mount:remaina(t)
+                mount:lighta(t, n * (-10) * rate_other)
+            end
         end
     end
 
