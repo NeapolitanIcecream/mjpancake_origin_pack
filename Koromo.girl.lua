@@ -2,20 +2,56 @@ rate_self = 1 -- 对自身影响倍率
 rate_other = 1 -- 对他家影响倍率
 undersea = T37.new("1p") -- 海底牌
 
+-- compare table
+function compare(a, b)
+    local ta = type(a)
+    local tb = type(b)
+    if ta ~= "table" and tb ~= "table" then
+        return a == b
+    end
+    if ta ~= tb then
+        return false
+    end
+    if (#ta) ~= (#tb) then
+        return false
+    end
+    for ka, va in pairs(a) do
+        if not (compare(b[ka], va)) then
+            return false
+        end
+    end
+    return true
+end
+
+-- copy table
+function copy(obj)
+    if type(obj) ~= "table" then
+        return obj
+    end
+    local res = {}
+    for k, v in pairs(obj) do
+        res[copy(k)] = copy(v)
+    end
+    return res
+end
+
 -- 每局开始时初始化全局变量
 function checkinit()
-    ready = false -- 等待海底捞月
-    hand_cur = init -- 等待海底捞月时的手牌
+    if who ~= self then
+        return true
+    end
 
     -- 处理天听海底
-    if hand_cur:ready() then
+    if init:ready() then
         local succ = false -- 本次沉底是否成功
-        for _, t in ipairs(hand_cur:effa()) do
+        local listen = init:effa() -- 听牌
+
+        for _, t in ipairs(listen) do
             if mount:remaina(t) >= 1 then
                 mount:loadb(t, 1)
-                ready = true
                 succ = true
                 undersea = t
+                wait = copy(listen) -- 记录听牌
                 print(t:str34() .. " 已经沉入海底")
                 break
             end
@@ -40,31 +76,45 @@ function ondraw()
         end
     end
 
-    -- 提高鸣牌和直击机会
+    -- 提高鸣牌和直击机会，压制他家鸣牌
     if who ~= self then
         local hand_slf = game:gethand(self)
+        local hand_left = game:gethand(who:left())
+        local hand_cross = game:gethand(who:cross())
+        local hand_right = game:gethand(who:right())
         for _, t in ipairs(hand_slf:effa()) do
             local n = mount:remaina(t)
-            mount:lighta(t, n * 10 * rate_other)
+            mount:lighta(t, n * 20 * rate_other)
+        end
+        for _, t in ipairs(hand_left:effa()) do
+            local n = mount:remaina(t)
+            mount:lighta(t, n * (-10) * rate_other)
+        end
+        for _, t in ipairs(hand_cross:effa()) do
+            local n = mount:remaina(t)
+            mount:lighta(t, n * (-10) * rate_other)
+        end
+        for _, t in ipairs(hand_right:effa()) do
+            local n = mount:remaina(t)
+            mount:lighta(t, n * (-10) * rate_other)
         end
     end
 
     -- 准备海底捞月
-    if who == self and hand ~= hand_cur and hand:ready() then
+    if who == self and not (compare(hand:effa(), wait)) and hand:ready() then
         local succ = false
-        for _, t in ipairs(hand:effa()) do
+        local listen = hand:effa()
+        for _, t in ipairs(listen) do
             if mount:remaina(t) >= 1 then
                 mount:loadb(t, 1)
-                ready = true
                 succ = true
                 undersea = t
-                hand_cur = hand
+                wait = copy(listen)
                 print(t:str34() .. " 已经沉入海底")
                 break
             end
         end
         if not (succ) then
-            ready = false
             print("海底残枚不足")
         end
     end
@@ -73,20 +123,22 @@ function ondraw()
         -- todo: 早巡大牌直击
         if not (hand:ready()) then
             for _, t in ipairs(hand:effa()) do
-                mount:lighta(t, 40 * rate_self)
+                local n = mount:remaina(t)
+                mount:lighta(t, n * 10 * rate_self)
             end
         end
 
         -- 计算海底方位
         local mod = remain % 4
+        local time = math.floor(remain / 4)
         if (mod == 1) then
-            print("自家海底")
+            print(time .. "巡后，自家到达海底")
         elseif (mod == 2) then
-            print("下家海底")
+            print(time .. "巡后，下家到达海底")
         elseif (mod == 3) then
-            print("对家海底")
+            print(time .. "巡后，对家到达海底")
         elseif (mod == 0) then
-            print("上家海底")
+            print(time .. "巡后，上家到达海底")
         end
     end
 
