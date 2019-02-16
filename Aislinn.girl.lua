@@ -29,8 +29,8 @@ function checkinit()
     count = {} -- 牌数统计
 
     -- 统计手牌数目
-    for k, t in ipairs(T34.all) do
-        count[k] = hand:ct(t)
+    for _, t in ipairs(T34.all) do
+        count[t:id34()] = hand:ct(t)
     end
 
     for i = 1, 13 do
@@ -38,8 +38,6 @@ function checkinit()
         local loop = false -- 有效循环
 
         repeat
-            k = k + 1
-
             -- 从头循环
             if k > len then
                 k = 1
@@ -56,7 +54,9 @@ function checkinit()
                     break
                 end
             end
-        until k >= len and loop
+
+            k = k + 1
+        until k > len and loop
 
         j = math.floor(random(j)) % len + 1
     end
