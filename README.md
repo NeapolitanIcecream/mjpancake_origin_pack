@@ -15,7 +15,7 @@
 ### Feb 16, 2019
 
 [天江衣](#天江衣)：暂时移除了一部分有关鸣牌控制的代码。  
-新增 [Aislinn Wishart](#Aislinn_Wishart)。
+新增 [Aislinn Wishart](#aislinn-wishart)。
 
 ### Feb 15, 2019
 
