@@ -76,6 +76,7 @@ function ondraw()
         end
     end
 
+    --[[
     -- 提高鸣牌和直击机会，压制他家鸣牌
     if who ~= self then
         local hand_slf = game:gethand(self)
@@ -111,6 +112,7 @@ function ondraw()
             end
         end
     end
+    ]]
 
     -- 准备海底捞月
     if who == self and not (compare(hand:effa(), wait)) and hand:ready() then
