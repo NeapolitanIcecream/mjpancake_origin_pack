@@ -64,14 +64,12 @@ function ondraw()
     if rinshan then
         for _, t in ipairs(effas) do
             local rsmk = random() % (total - mount:remainrinshan()) * round * rate_self
-            print(rsmk)
             mount:lighta(t, rsmk, true)
             mount:lightb(t, rsmk, true)
         end
     else
         for _, t in ipairs(effas) do
             local incmk = random() % (total - mount:remainpii() - mount:remainrinshan()) * round * rate_self
-            print(incmk)
             mount:lighta(t, incmk)
             mount:lightb(t, incmk)
         end
