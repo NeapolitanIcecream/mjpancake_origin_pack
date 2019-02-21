@@ -9,7 +9,7 @@ function checkinit()
     if who ~= self then
         return true
     end
-    
+
     local hand = game:gethand(self)
     step = hand:step()
     return true
@@ -102,26 +102,22 @@ function ongameevent()
         -- 晚巡生張獎勵
         if nearend and stranger then
             luck = luck + incluck_stranger
-            print("晚巡生張獎勵")
         end
 
         -- 立直生張獎勵
         if richied and stranger then
             luck = luck + incluck_stranger
-            print("立直生張獎勵")
         end
 
         -- 不進向聽
         if step_loc == step then
             luck = luck + incluck_stepin
-            print("不進向聽")
         end
 
         -- 退向聽
         if step_loc > step then
             step = step_loc
             luck = luck + incluck_step
-            print("退向聽")
         end
 
         -- 進向聽
