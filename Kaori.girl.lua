@@ -2,8 +2,8 @@ rate = 10
 incmk = 40
 luck_limit = 100
 incluck_step = 100
-incluck_stepin = 25
-incluck_stranger = 50
+incluck_stepin = 15
+incluck_stranger = 40
 
 function checkinit()
     if who ~= self then
