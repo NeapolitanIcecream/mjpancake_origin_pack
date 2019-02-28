@@ -91,7 +91,7 @@ function ondraw()
 
         -- loaded to b
         for i = 1, cntturn do
-            mount:loadb(T34.new(paint[i]), cntpaint[paint[i]])
+            mount:loadb(T37.new(paint[i]), cntpaint[paint[i]])
         end
     end
 
