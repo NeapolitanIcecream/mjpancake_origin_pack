@@ -4,7 +4,7 @@ incmk_rins = 1000
 incmk_3f = 40
 incmk_pg = {[0] = 0, [1] = 0, [2] = 80, [3] = 160, [4] = 0}
 incmk_dkg = {[0] = 0, [1] = 40, [2] = 80, [3] = 160, [4] = 0}
-incmk_kakan = 1000
+incmk_kakan = 10000
 
 -- 增加西風配牌
 function onmonkey()
@@ -78,6 +78,7 @@ function ondraw()
             if m:type() == "pon" then
                 -- print(m[1]:str34() .. " kakan " .. incmk_kakan * rate_self)
                 mount:lighta(m[1], incmk_kakan * rate_self)
+                mount:lighta(m[1], incmk_kakan * rate_self, true)
             end
         end
 
@@ -85,7 +86,7 @@ function ondraw()
         if rinshan then
             for _, t in ipairs(effa_self) do
                 -- print(t:str34() .. " rins " .. incmk_rins * rate_self)
-                mount:lighta(t, incmk_rins * rate_self)
+                mount:lighta(t, incmk_rins * rate_self, true)
             end
         end
     end
